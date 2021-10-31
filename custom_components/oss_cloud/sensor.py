@@ -46,8 +46,66 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
     {vol.Required(CONF_API_TOKEN): cv.string}
 )
 
-SENSOR_TYPES = {
-    "activepower": [POWER_WATT, DEVICE_CLASS_POWER]
+MINUTE_SENSOR_TYPES = {
+    "activepower_input_min": [POWER_WATT, DEVICE_CLASS_POWER],
+    "activepower_input_max": [POWER_WATT, DEVICE_CLASS_POWER],
+    "activepower_input_avg": [POWER_WATT, DEVICE_CLASS_POWER],
+    "activepower_output_min": [POWER_WATT, DEVICE_CLASS_POWER],
+    "activepower_output_max": [POWER_WATT, DEVICE_CLASS_POWER],
+    "activepower_output_avg": [POWER_WATT, DEVICE_CLASS_POWER],
+    "reactivepower_input_min": [POWER_WATT, DEVICE_CLASS_POWER],
+    "reactivepower_input_max": [POWER_WATT, DEVICE_CLASS_POWER],
+    "reactivepower_input_avg": [POWER_WATT, DEVICE_CLASS_POWER],
+    "reactivepower_output_min": [POWER_WATT, DEVICE_CLASS_POWER],
+    "reactivepower_output_max": [POWER_WATT, DEVICE_CLASS_POWER],
+    "reactivepower_output_avg": [POWER_WATT, DEVICE_CLASS_POWER],
+    "phaseone_voltage_min": [ELECTRIC_POTENTIAL_VOLT, DEVICE_CLASS_VOLTAGE],
+    "phaseone_voltage_max": [ELECTRIC_POTENTIAL_VOLT, DEVICE_CLASS_VOLTAGE],
+    "phaseone_voltage_avg": [ELECTRIC_POTENTIAL_VOLT, DEVICE_CLASS_VOLTAGE],
+    "phaseone_current_min": [ELECTRIC_POTENTIAL_VOLT, DEVICE_CLASS_VOLTAGE],
+    "phaseone_current_max": [ELECTRIC_POTENTIAL_VOLT, DEVICE_CLASS_VOLTAGE],
+    "phaseone_current_avg": [ELECTRIC_POTENTIAL_VOLT, DEVICE_CLASS_VOLTAGE],
+    "phasetwo_voltage_min": [ELECTRIC_POTENTIAL_VOLT, DEVICE_CLASS_VOLTAGE],
+    "phasetwo_voltage_max": [ELECTRIC_POTENTIAL_VOLT, DEVICE_CLASS_VOLTAGE],
+    "phasetwo_voltage_avg": [ELECTRIC_POTENTIAL_VOLT, DEVICE_CLASS_VOLTAGE],
+    "phasetwo_current_min": [ELECTRIC_POTENTIAL_VOLT, DEVICE_CLASS_VOLTAGE],
+    "phasetwo_current_max": [ELECTRIC_POTENTIAL_VOLT, DEVICE_CLASS_VOLTAGE],
+    "phasetwo_current_avg": [ELECTRIC_POTENTIAL_VOLT, DEVICE_CLASS_VOLTAGE],
+    "phasethree_voltage_min": [ELECTRIC_POTENTIAL_VOLT, DEVICE_CLASS_VOLTAGE],
+    "phasethree_voltage_max": [ELECTRIC_POTENTIAL_VOLT, DEVICE_CLASS_VOLTAGE],
+    "phasethree_voltage_avg": [ELECTRIC_POTENTIAL_VOLT, DEVICE_CLASS_VOLTAGE],
+    "phasethree_current_min": [ELECTRIC_CURRENT_AMPERE, DEVICE_CLASS_CURRENT],
+    "phasethree_current_max": [ELECTRIC_CURRENT_AMPERE, DEVICE_CLASS_CURRENT],
+    "phasethree_current_avg": [ELECTRIC_CURRENT_AMPERE, DEVICE_CLASS_CURRENT],
+}
+
+HOUR_SENSOR_TYPES = {
+    "cumulativeactivepower_hour_input_min": [ENERGY_KILO_WATT_HOUR, DEVICE_CLASS_ENERGY],
+    "cumulativeactivepower_hour_input_max": [ENERGY_KILO_WATT_HOUR, DEVICE_CLASS_ENERGY],
+    "cumulativeactivepower_hour_input_avg": [ENERGY_KILO_WATT_HOUR, DEVICE_CLASS_ENERGY],
+    "cumulativeactivepower_hour_output_min": [ENERGY_KILO_WATT_HOUR, DEVICE_CLASS_ENERGY],
+    "cumulativeactivepower_hour_output_max": [ENERGY_KILO_WATT_HOUR, DEVICE_CLASS_ENERGY],
+    "cumulativeactivepower_hour_output_avg": [ENERGY_KILO_WATT_HOUR, DEVICE_CLASS_ENERGY],
+    "cumulativereactivepower_hour_input_min": [ENERGY_KILO_WATT_HOUR, DEVICE_CLASS_ENERGY],
+    "cumulativereactivepower_hour_input_max": [ENERGY_KILO_WATT_HOUR, DEVICE_CLASS_ENERGY],
+    "cumulativereactivepower_hour_input_avg": [ENERGY_KILO_WATT_HOUR, DEVICE_CLASS_ENERGY],
+    "cumulativereactivepower_hour_output_min": [ENERGY_KILO_WATT_HOUR, DEVICE_CLASS_ENERGY],
+    "cumulativereactivepower_hour_output_max": [ENERGY_KILO_WATT_HOUR, DEVICE_CLASS_ENERGY],
+    "cumulativereactivepower_hour_output_avg": [ENERGY_KILO_WATT_HOUR, DEVICE_CLASS_ENERGY],
+}
+DAY_SENSOR_TYPES = {
+    "cumulativeactivepower_day_input_min": [ENERGY_KILO_WATT_HOUR, DEVICE_CLASS_ENERGY],
+    "cumulativeactivepower_day_input_max": [ENERGY_KILO_WATT_HOUR, DEVICE_CLASS_ENERGY],
+    "cumulativeactivepower_day_input_avg": [ENERGY_KILO_WATT_HOUR, DEVICE_CLASS_ENERGY],
+    "cumulativeactivepower_day_output_min": [ENERGY_KILO_WATT_HOUR, DEVICE_CLASS_ENERGY],
+    "cumulativeactivepower_day_output_max": [ENERGY_KILO_WATT_HOUR, DEVICE_CLASS_ENERGY],
+    "cumulativeactivepower_day_output_avg": [ENERGY_KILO_WATT_HOUR, DEVICE_CLASS_ENERGY],
+    "cumulativereactivepower_day_input_min": [ENERGY_KILO_WATT_HOUR, DEVICE_CLASS_ENERGY],
+    "cumulativereactivepower_day_input_max": [ENERGY_KILO_WATT_HOUR, DEVICE_CLASS_ENERGY],
+    "cumulativereactivepower_day_input_avg": [ENERGY_KILO_WATT_HOUR, DEVICE_CLASS_ENERGY],
+    "cumulativereactivepower_day_output_min": [ENERGY_KILO_WATT_HOUR, DEVICE_CLASS_ENERGY],
+    "cumulativereactivepower_day_output_max": [ENERGY_KILO_WATT_HOUR, DEVICE_CLASS_ENERGY],
+    "cumulativereactivepower_day_output_avg": [ENERGY_KILO_WATT_HOUR, DEVICE_CLASS_ENERGY],
 }
 
 
@@ -61,8 +119,7 @@ async def async_setup_platform(hass, config, async_add_entities, discovery_info=
 
     dev = []
     for sensor_id, sensor in oss_data.sensors.items():
-        if sensor[1] in SENSOR_TYPES:
-            dev.append(OSSEntity(sensor_id, sensor, oss_data))
+        dev.append(OSSEntity(sensor_id, sensor, oss_data))
 
     async_add_entities(dev)
 
@@ -77,8 +134,15 @@ class OSSEntity(Entity):
         self._sensor_id = sensor_id
         self._sensor = sensor
         self._oss_data = oss_data
-        self._unit_of_measurement = SENSOR_TYPES[sensor[1]][0]
-        self._device_class = SENSOR_TYPES[sensor[1]][1]
+        if sensor[4] == "minute":
+            self._unit_of_measurement = MINUTE_SENSOR_TYPES[sensor[1]][0]
+            self._device_class = MINUTE_SENSOR_TYPES[sensor[1]][1]
+        elif sensor[4] == "hour":
+            self._unit_of_measurement = HOUR_SENSOR_TYPES[sensor[1]][0]
+            self._device_class = HOUR_SENSOR_TYPES[sensor[1]][1]
+        elif sensor[4] == "day":
+            self._unit_of_measurement = DAY_SENSOR_TYPES[sensor[1]][0]
+            self._device_class = DAY_SENSOR_TYPES[sensor[1]][1]
 
     @property
     def name(self):
@@ -98,19 +162,13 @@ class OSSEntity(Entity):
                 self._sensor[3], "%Y-%m-%dT%H:%M:%SZ"
             ).replace(
                 tzinfo=datetime.timezone.utc
-            ),
-            "max_in": self._sensor[2]["input"]["max"],
-            "min_in": self._sensor[2]["input"]["min"],
-            "avg_in": self._sensor[2]["input"]["avg"],
-            "max_out": self._sensor[2]["output"]["max"],
-            "min_out": self._sensor[2]["output"]["min"],
-            "avg_out": self._sensor[2]["output"]["avg"]
+            )
         }
 
     @property
     def state(self):
         """Return the state of the device."""
-        return self._sensor[2]["input"]["avg"]
+        return self._sensor[2]
 
     @property
     def unit_of_measurement(self):
@@ -206,6 +264,7 @@ class OSSData:
                 raise
             except asyncio.TimeoutError:
                 return False
+
             from_time = (now - datetime.timedelta(minutes=self._poll_period*20)).strftime("%Y-%m-%dT%H:%M:%SZ")
             to_time = (now + datetime.timedelta(minutes=self._poll_period*20)).strftime("%Y-%m-%dT%H:%M:%SZ")
             try:
@@ -230,12 +289,99 @@ class OSSData:
 
             latest_meter_reading = meter_readings_result[-1]
             for sensor in latest_meter_reading:
-                sensor_type = sensor.lower()
-                if sensor_type in SENSOR_TYPES:
-                    self.sensors[f'{meter["meterNumber"]}_{sensor_type}'] = (
-                        meter,
-                        sensor_type,
-                        latest_meter_reading.get(sensor, {}),
-                        latest_meter_reading.get("timestamp", "")
+                sensor_information = latest_meter_reading.get(sensor, {})
+                if isinstance(sensor_information, dict):
+                    for sub_sensor in sensor_information:
+                        sub_sensor_information = sensor_information.get(sub_sensor, {})
+                        if isinstance(sub_sensor_information, dict):
+                            for sensor_value in sub_sensor_information:
+                                sensor_type = f"{sensor.lower()}_{sub_sensor.lower()}_{sensor_value.lower()}"
+                                if sensor_type in MINUTE_SENSOR_TYPES:
+                                    self.sensors[f'{meter["meterNumber"]}_{sensor_type}'] = (
+                                        meter,
+                                        sensor_type,
+                                        sub_sensor_information.get(sensor_value, None),
+                                        latest_meter_reading.get("timestamp", ""),
+                                        "minute"
+                                    )
+
+            from_time = (now - datetime.timedelta(minutes=self._poll_period * 200)).strftime("%Y-%m-%dT%H:%M:%SZ")
+            to_time = (now + datetime.timedelta(minutes=self._poll_period * 200)).strftime("%Y-%m-%dT%H:%M:%SZ")
+            try:
+                with async_timeout.timeout(self._timeout):
+                    resp = await self._session.get(
+                        f"https://api.services.oss.no/api/Telemetry/{meter['meterNumber']}/{from_time}/{to_time}/{OSSData.RESOLUTION['hour']}",
+                        headers=headers,
                     )
+                if resp.status != 200:
+                    _LOGGER.error(
+                        "Error connecting to OSS, resp code: %s %s",
+                        resp.status,
+                        resp.reason,
+                    )
+                    return False
+                meter_readings_result = await resp.json()
+            except aiohttp.ClientError as err:
+                _LOGGER.error("Error connecting to OSS: %s ", err, exc_info=True)
+                raise
+            except asyncio.TimeoutError:
+                return False
+
+            latest_meter_reading = meter_readings_result[-1]
+            for sensor in latest_meter_reading:
+                sensor_information = latest_meter_reading.get(sensor, {})
+                if isinstance(sensor_information, dict):
+                    for sub_sensor in sensor_information:
+                        sub_sensor_information = sensor_information.get(sub_sensor, {})
+                        if isinstance(sub_sensor_information, dict):
+                            for sensor_value in sub_sensor_information:
+                                sensor_type = f"{sensor.lower()}_hour_{sub_sensor.lower()}_{sensor_value.lower()}"
+                                if sensor_type in HOUR_SENSOR_TYPES:
+                                    self.sensors[f'{meter["meterNumber"]}_{sensor_type}'] = (
+                                        meter,
+                                        sensor_type,
+                                        sub_sensor_information.get(sensor_value, None),
+                                        latest_meter_reading.get("timestamp", ""),
+                                        "hour"
+                                    )
+
+            from_time = (now - datetime.timedelta(minutes=self._poll_period*2000)).strftime("%Y-%m-%dT%H:%M:%SZ")
+            to_time = (now + datetime.timedelta(minutes=self._poll_period*2000)).strftime("%Y-%m-%dT%H:%M:%SZ")
+            try:
+                with async_timeout.timeout(self._timeout):
+                    resp = await self._session.get(
+                        f"https://api.services.oss.no/api/Telemetry/{meter['meterNumber']}/{from_time}/{to_time}/{OSSData.RESOLUTION['day']}",
+                        headers=headers,
+                    )
+                if resp.status != 200:
+                    _LOGGER.error(
+                        "Error connecting to OSS, resp code: %s %s",
+                        resp.status,
+                        resp.reason,
+                    )
+                    return False
+                meter_readings_result= await resp.json()
+            except aiohttp.ClientError as err:
+                _LOGGER.error("Error connecting to OSS: %s ", err, exc_info=True)
+                raise
+            except asyncio.TimeoutError:
+                return False
+
+            latest_meter_reading = meter_readings_result[-1]
+            for sensor in latest_meter_reading:
+                sensor_information = latest_meter_reading.get(sensor, {})
+                if isinstance(sensor_information, dict):
+                    for sub_sensor in sensor_information:
+                        sub_sensor_information = sensor_information.get(sub_sensor, {})
+                        if isinstance(sub_sensor_information, dict):
+                            for sensor_value in sub_sensor_information:
+                                sensor_type = f"{sensor.lower()}_day_{sub_sensor.lower()}_{sensor_value.lower()}"
+                                if sensor_type in DAY_SENSOR_TYPES:
+                                    self.sensors[f'{meter["meterNumber"]}_{sensor_type}'] = (
+                                        meter,
+                                        sensor_type,
+                                        sub_sensor_information.get(sensor_value, None),
+                                        latest_meter_reading.get("timestamp", ""),
+                                        "day"
+                                    )
         return True
