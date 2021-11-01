@@ -287,23 +287,24 @@ class OSSData:
             except asyncio.TimeoutError:
                 return False
 
-            latest_meter_reading = meter_readings_result[-1]
-            for sensor in latest_meter_reading:
-                sensor_information = latest_meter_reading.get(sensor, {})
-                if isinstance(sensor_information, dict):
-                    for sub_sensor in sensor_information:
-                        sub_sensor_information = sensor_information.get(sub_sensor, {})
-                        if isinstance(sub_sensor_information, dict):
-                            for sensor_value in sub_sensor_information:
-                                sensor_type = f"{sensor.lower()}_{sub_sensor.lower()}_{sensor_value.lower()}"
-                                if sensor_type in MINUTE_SENSOR_TYPES:
-                                    self.sensors[f'{meter["meterNumber"]}_{sensor_type}'] = (
-                                        meter,
-                                        sensor_type,
-                                        sub_sensor_information.get(sensor_value, None),
-                                        latest_meter_reading.get("timestamp", ""),
-                                        "minute"
-                                    )
+            if meter_readings_result:
+                latest_meter_reading = meter_readings_result[-1]
+                for sensor in latest_meter_reading:
+                    sensor_information = latest_meter_reading.get(sensor, {})
+                    if isinstance(sensor_information, dict):
+                        for sub_sensor in sensor_information:
+                            sub_sensor_information = sensor_information.get(sub_sensor, {})
+                            if isinstance(sub_sensor_information, dict):
+                                for sensor_value in sub_sensor_information:
+                                    sensor_type = f"{sensor.lower()}_{sub_sensor.lower()}_{sensor_value.lower()}"
+                                    if sensor_type in MINUTE_SENSOR_TYPES:
+                                        self.sensors[f'{meter["meterNumber"]}_{sensor_type}'] = (
+                                            meter,
+                                            sensor_type,
+                                            sub_sensor_information.get(sensor_value, None),
+                                            latest_meter_reading.get("timestamp", ""),
+                                            "minute"
+                                        )
 
             from_time = (now - datetime.timedelta(minutes=self._poll_period * 200)).strftime("%Y-%m-%dT%H:%M:%SZ")
             to_time = (now + datetime.timedelta(minutes=self._poll_period * 200)).strftime("%Y-%m-%dT%H:%M:%SZ")
@@ -327,23 +328,24 @@ class OSSData:
             except asyncio.TimeoutError:
                 return False
 
-            latest_meter_reading = meter_readings_result[-1]
-            for sensor in latest_meter_reading:
-                sensor_information = latest_meter_reading.get(sensor, {})
-                if isinstance(sensor_information, dict):
-                    for sub_sensor in sensor_information:
-                        sub_sensor_information = sensor_information.get(sub_sensor, {})
-                        if isinstance(sub_sensor_information, dict):
-                            for sensor_value in sub_sensor_information:
-                                sensor_type = f"{sensor.lower()}_hour_{sub_sensor.lower()}_{sensor_value.lower()}"
-                                if sensor_type in HOUR_SENSOR_TYPES:
-                                    self.sensors[f'{meter["meterNumber"]}_{sensor_type}'] = (
-                                        meter,
-                                        sensor_type,
-                                        sub_sensor_information.get(sensor_value, None),
-                                        latest_meter_reading.get("timestamp", ""),
-                                        "hour"
-                                    )
+            if meter_readings_result:
+                latest_meter_reading = meter_readings_result[-1]
+                for sensor in latest_meter_reading:
+                    sensor_information = latest_meter_reading.get(sensor, {})
+                    if isinstance(sensor_information, dict):
+                        for sub_sensor in sensor_information:
+                            sub_sensor_information = sensor_information.get(sub_sensor, {})
+                            if isinstance(sub_sensor_information, dict):
+                                for sensor_value in sub_sensor_information:
+                                    sensor_type = f"{sensor.lower()}_hour_{sub_sensor.lower()}_{sensor_value.lower()}"
+                                    if sensor_type in HOUR_SENSOR_TYPES:
+                                        self.sensors[f'{meter["meterNumber"]}_{sensor_type}'] = (
+                                            meter,
+                                            sensor_type,
+                                            sub_sensor_information.get(sensor_value, None),
+                                            latest_meter_reading.get("timestamp", ""),
+                                            "hour"
+                                        )
 
             from_time = (now - datetime.timedelta(minutes=self._poll_period*2000)).strftime("%Y-%m-%dT%H:%M:%SZ")
             to_time = (now + datetime.timedelta(minutes=self._poll_period*2000)).strftime("%Y-%m-%dT%H:%M:%SZ")
@@ -367,21 +369,22 @@ class OSSData:
             except asyncio.TimeoutError:
                 return False
 
-            latest_meter_reading = meter_readings_result[-1]
-            for sensor in latest_meter_reading:
-                sensor_information = latest_meter_reading.get(sensor, {})
-                if isinstance(sensor_information, dict):
-                    for sub_sensor in sensor_information:
-                        sub_sensor_information = sensor_information.get(sub_sensor, {})
-                        if isinstance(sub_sensor_information, dict):
-                            for sensor_value in sub_sensor_information:
-                                sensor_type = f"{sensor.lower()}_day_{sub_sensor.lower()}_{sensor_value.lower()}"
-                                if sensor_type in DAY_SENSOR_TYPES:
-                                    self.sensors[f'{meter["meterNumber"]}_{sensor_type}'] = (
-                                        meter,
-                                        sensor_type,
-                                        sub_sensor_information.get(sensor_value, None),
-                                        latest_meter_reading.get("timestamp", ""),
-                                        "day"
-                                    )
+            if meter_readings_result:
+                latest_meter_reading = meter_readings_result[-1]
+                for sensor in latest_meter_reading:
+                    sensor_information = latest_meter_reading.get(sensor, {})
+                    if isinstance(sensor_information, dict):
+                        for sub_sensor in sensor_information:
+                            sub_sensor_information = sensor_information.get(sub_sensor, {})
+                            if isinstance(sub_sensor_information, dict):
+                                for sensor_value in sub_sensor_information:
+                                    sensor_type = f"{sensor.lower()}_day_{sub_sensor.lower()}_{sensor_value.lower()}"
+                                    if sensor_type in DAY_SENSOR_TYPES:
+                                        self.sensors[f'{meter["meterNumber"]}_{sensor_type}'] = (
+                                            meter,
+                                            sensor_type,
+                                            sub_sensor_information.get(sensor_value, None),
+                                            latest_meter_reading.get("timestamp", ""),
+                                            "day"
+                                        )
         return True
