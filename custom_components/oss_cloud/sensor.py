@@ -265,8 +265,8 @@ class OSSData:
             except asyncio.TimeoutError:
                 return False
 
-            from_time = (now - datetime.timedelta(minutes=self._poll_period*20)).strftime("%Y-%m-%dT%H:%M:%SZ")
-            to_time = (now + datetime.timedelta(minutes=self._poll_period*20)).strftime("%Y-%m-%dT%H:%M:%SZ")
+            from_time = (now - datetime.timedelta(seconds=self._poll_period*20)).strftime("%Y-%m-%dT%H:%M:%SZ")
+            to_time = (now + datetime.timedelta(seconds=self._poll_period*20)).strftime("%Y-%m-%dT%H:%M:%SZ")
             try:
                 with async_timeout.timeout(self._timeout):
                     resp = await self._session.get(
@@ -305,9 +305,11 @@ class OSSData:
                                             latest_meter_reading.get("timestamp", ""),
                                             "minute"
                                         )
+            else:
+                _LOGGER.warning("No minute resolution data received.")
 
-            from_time = (now - datetime.timedelta(minutes=self._poll_period * 200)).strftime("%Y-%m-%dT%H:%M:%SZ")
-            to_time = (now + datetime.timedelta(minutes=self._poll_period * 200)).strftime("%Y-%m-%dT%H:%M:%SZ")
+            from_time = (now - datetime.timedelta(seconds=self._poll_period * 200)).strftime("%Y-%m-%dT%H:%M:%SZ")
+            to_time = (now + datetime.timedelta(seconds=self._poll_period * 200)).strftime("%Y-%m-%dT%H:%M:%SZ")
             try:
                 with async_timeout.timeout(self._timeout):
                     resp = await self._session.get(
@@ -346,9 +348,11 @@ class OSSData:
                                             latest_meter_reading.get("timestamp", ""),
                                             "hour"
                                         )
+            else:
+                _LOGGER.warning("No hour resolution data received.")
 
-            from_time = (now - datetime.timedelta(minutes=self._poll_period*2000)).strftime("%Y-%m-%dT%H:%M:%SZ")
-            to_time = (now + datetime.timedelta(minutes=self._poll_period*2000)).strftime("%Y-%m-%dT%H:%M:%SZ")
+            from_time = (now - datetime.timedelta(seconds=self._poll_period*2000)).strftime("%Y-%m-%dT%H:%M:%SZ")
+            to_time = (now + datetime.timedelta(seconds=self._poll_period*2000)).strftime("%Y-%m-%dT%H:%M:%SZ")
             try:
                 with async_timeout.timeout(self._timeout):
                     resp = await self._session.get(
@@ -387,4 +391,6 @@ class OSSData:
                                             latest_meter_reading.get("timestamp", ""),
                                             "day"
                                         )
+            else:
+                _LOGGER.warning("No day resolution data received.")
         return True
