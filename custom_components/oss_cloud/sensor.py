@@ -257,8 +257,8 @@ class OSSData:
                         resp.status,
                         resp.reason,
                     )
-                    return False
-                meter_health_result = await resp.json()
+                else:
+                    meter_health_result = await resp.json()
             except aiohttp.ClientError as err:
                 _LOGGER.error("Error connecting to OSS: %s ", err, exc_info=True)
                 raise
@@ -267,6 +267,7 @@ class OSSData:
 
             from_time = (now - datetime.timedelta(seconds=self._poll_period*20)).strftime("%Y-%m-%dT%H:%M:%SZ")
             to_time = (now + datetime.timedelta(seconds=self._poll_period*20)).strftime("%Y-%m-%dT%H:%M:%SZ")
+            meter_readings_result = None
             try:
                 with async_timeout.timeout(self._timeout):
                     resp = await self._session.get(
@@ -279,8 +280,8 @@ class OSSData:
                         resp.status,
                         resp.reason,
                     )
-                    return False
-                meter_readings_result= await resp.json()
+                else:
+                    meter_readings_result = await resp.json()
             except aiohttp.ClientError as err:
                 _LOGGER.error("Error connecting to OSS: %s ", err, exc_info=True)
                 raise
@@ -310,6 +311,7 @@ class OSSData:
 
             from_time = (now - datetime.timedelta(seconds=self._poll_period * 200)).strftime("%Y-%m-%dT%H:%M:%SZ")
             to_time = (now + datetime.timedelta(seconds=self._poll_period * 200)).strftime("%Y-%m-%dT%H:%M:%SZ")
+            meter_readings_result = None
             try:
                 with async_timeout.timeout(self._timeout):
                     resp = await self._session.get(
@@ -322,8 +324,8 @@ class OSSData:
                         resp.status,
                         resp.reason,
                     )
-                    return False
-                meter_readings_result = await resp.json()
+                else:
+                    meter_readings_result = await resp.json()
             except aiohttp.ClientError as err:
                 _LOGGER.error("Error connecting to OSS: %s ", err, exc_info=True)
                 raise
@@ -353,6 +355,7 @@ class OSSData:
 
             from_time = (now - datetime.timedelta(seconds=self._poll_period*2000)).strftime("%Y-%m-%dT%H:%M:%SZ")
             to_time = (now + datetime.timedelta(seconds=self._poll_period*2000)).strftime("%Y-%m-%dT%H:%M:%SZ")
+            meter_readings_result = None
             try:
                 with async_timeout.timeout(self._timeout):
                     resp = await self._session.get(
@@ -365,8 +368,8 @@ class OSSData:
                         resp.status,
                         resp.reason,
                     )
-                    return False
-                meter_readings_result= await resp.json()
+                else:
+                    meter_readings_result= await resp.json()
             except aiohttp.ClientError as err:
                 _LOGGER.error("Error connecting to OSS: %s ", err, exc_info=True)
                 raise
